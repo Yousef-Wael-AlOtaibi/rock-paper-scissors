@@ -4,3 +4,6 @@ function getComputerChoice(){
     if(randomNumber === 1)return 'paper';
     if(randomNumber === 2)return 'scissors';
 }
+function getHumanChoice(){
+    return prompt('Enter your choice between rock, paper, and scissors.');
+}
