@@ -7,7 +7,9 @@ function getComputerChoice(){
 function getHumanChoice(){
     return prompt('Enter your choice between rock, paper, and scissors.').toLowerCase();
 }
-
+let winner;
+const humanSpan = document.querySelector('#human-score');
+const computerSpan = document.querySelector('#computer-score');
 function playRound(humanChoice,computerChoice){
     if(humanChoice === computerChoice){
         const resultItem = document.createElement('li');
@@ -19,6 +21,8 @@ function playRound(humanChoice,computerChoice){
         humanChoice === 'scissors' && computerChoice === 'paper' ||
         humanChoice === 'paper' && computerChoice === 'rock'){
         humanScore++;
+        humanSpan.textContent = humanScore;
+        if(humanScore >=5)winner = 'human';
         const resultItem = document.createElement('li');
         resultItem.textContent = `Human wins! ${humanChoice} beats ${computerChoice}.`;
         resultsList.appendChild(resultItem);
@@ -26,16 +30,31 @@ function playRound(humanChoice,computerChoice){
     }
     else{
         computerScore++;
+        computerSpan.textContent = computerScore;
+        if(computerScore >=5)winner = 'computer';
         const resultItem = document.createElement('li');
         resultItem.textContent = `Computer wins! ${computerChoice} beats ${humanChoice}.`;
         resultsList.appendChild(resultItem);
         console.log(`Computer wins! ${computerChoice} beats ${humanChoice}.`)
+    }
+    if(winner){
+        const winnerItem = document.createElement('li');
+        winnerItem.textContent = `${winner} won 5 rounds, Game ends.`;
+        resultsList.appendChild(winnerItem);
+        humanScore = 0;
+        computerScore = 0;
     }
 }
 let humanScore = 0;
 let computerScore = 0;
 const selectorBtns = document.querySelectorAll('button');
 selectorBtns.forEach(btn=>btn.addEventListener('click', ()=>{
+    if(winner){
+        resultsList.replaceChildren('');
+        humanSpan.textContent = 0;
+        computerSpan.textContent = 0;
+        winner = '';
+    }
     playRound(btn.value,getComputerChoice());
 }));
 const resultsList = document.querySelector('#results-list');
